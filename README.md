@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/boldyrev/rails-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/boldyrev/rails-project-lvl1/actions)
+![Actions Status](https://github.com/boldyrev/rails-project-lvl1/workflows/hexlet-check/badge.svg)
 ![CI status](https://github.com/boldyrev/rails-project-lvl1/actions/workflows/main.yml/badge.svg)
 
 # HexletCode
