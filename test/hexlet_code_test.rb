@@ -16,4 +16,18 @@ class HexletCodeTest < Minitest::Test
     expected = '<img src="/path/to/image">'
     assert { @tag.build("img", src: "/path/to/image") == expected }
   end
+
+  def test_it_does_create_form
+    result = @tag.form_for Object.new do |f|
+    end
+    expected = '<form action="#" method="post"></form>'
+    assert { result == expected }
+  end
+
+  def test_it_does_create_form_with_url
+    result = @tag.form_for Object.new, url: "/users" do |f|
+    end
+    expected = '<form action="/users" method="post"></form>'
+    assert { result == expected }
+  end
 end
