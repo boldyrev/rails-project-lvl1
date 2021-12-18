@@ -51,7 +51,6 @@ end
 #   <textarea cols="20" rows="40" name="job">hexlet</textarea>
 # </form>
 
-
 # Raise NoMethodError if object not contain field
 html = HexletCode.form_for user, url: '/users' do |f|
   f.input :name
@@ -60,6 +59,8 @@ html = HexletCode.form_for user, url: '/users' do |f|
   f.input :age
   f.submit
 end
+
+# =>  `public_send': undefined method `age' for #<struct User id=nil, name=nil, job=nil> (NoMethodError)
 
 ```
 
