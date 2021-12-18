@@ -25,7 +25,43 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create tags
+
+```ruby
+HexletCode::Tag.build('br')
+# <br>
+
+HexletCode::Tag.build('p', class: 'content') { 'Text' }
+# <p class="content">Text</p>
+```
+
+Create form for object
+
+```ruby
+User = Struct.new(:name, :job, :gender, keyword_init: true)
+user = User.new name: 'rob', job: 'hexlet', gender: 'm'
+
+HexletCode.form_for user do |f|
+  f.input :name
+  f.input :job, as: :text
+end
+
+# <form action="#" method="post">
+#   <input name="name" type="text" value="rob">
+#   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+# </form>
+
+
+# Raise NoMethodError if object not contain field
+html = HexletCode.form_for user, url: '/users' do |f|
+  f.input :name
+  f.input :job, as: :text
+  # Field :age is not exists
+  f.input :age
+  f.submit
+end
+
+```
 
 ## Development
 
