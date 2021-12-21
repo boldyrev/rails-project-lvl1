@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "hexlet_code/version"
-require_relative "hexlet_code/html"
+require_relative 'hexlet_code/version'
+require_relative 'hexlet_code/html'
 
 # Main module
 module HexletCode
@@ -21,8 +21,8 @@ module HexletCode
     def form_for(user, **options)
       @user = user
       @form = {
-        action: options[:url] || "#",
-        method: "post",
+        action: options[:url] || '#',
+        method: 'post',
         elements: []
       }
       yield HexletCode if block_given?
@@ -33,9 +33,9 @@ module HexletCode
       add_label field.to_s
       as = options.delete(:as)
       element = {
-        tag: "input",
+        tag: 'input',
         name: field.to_s,
-        type: "text"
+        type: 'text'
       }.merge(options)
 
       element = to_textarea(element, **options) if as == :text
@@ -43,11 +43,11 @@ module HexletCode
       @form[:elements].push(element)
     end
 
-    def submit(title = "Save")
+    def submit(title = 'Save')
       element = {
-        tag: "input",
-        name: "commit",
-        type: "submit",
+        tag: 'input',
+        name: 'commit',
+        type: 'submit',
         value: title
       }
       @form[:elements].push(element)
@@ -55,7 +55,7 @@ module HexletCode
 
     def add_label(name)
       element = {
-        tag: "label",
+        tag: 'label',
         for: name,
         value: name.capitalize
       }
@@ -65,7 +65,7 @@ module HexletCode
 
     def to_textarea(element, **options)
       element.delete(:type)
-      element[:tag] = "textarea"
+      element[:tag] = 'textarea'
       element[:cols] = options[:cols] || 20
       element[:rows] = options[:rows] || 40
       element
