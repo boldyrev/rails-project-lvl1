@@ -29,17 +29,17 @@ class HexletCodeTest < Minitest::Test
   end
 
   def test_it_does_create_form
-    result = @tag.form_for Object.new
+    result = HexletCode.form_for Object.new
     assert { result == fixture("empty_form") }
   end
 
   def test_it_does_create_form_with_url
-    result = @tag.form_for Object.new, url: "/users"
+    result = HexletCode.form_for Object.new, url: "/users"
     assert { result == fixture("empty_form_with_url") }
   end
 
   def test_it_does_create_form_with_inputs
-    result = @tag.form_for @user do |f|
+    result = HexletCode.form_for @user do |f|
       f.input :name
       f.input :job, as: :text
     end
@@ -48,7 +48,7 @@ class HexletCodeTest < Minitest::Test
 
   def test_it_does_raise_error_if_field_not_found
     assert_raises(NoMethodError) do
-      @tag.form_for @user, url: "/users" do |f|
+      HexletCode.form_for @user, url: "/users" do |f|
         f.input :name
         f.input :job, as: :text
         f.input :age
