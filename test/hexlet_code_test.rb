@@ -57,6 +57,16 @@ class HexletCodeTest < Minitest::Test
     end
   end
 
+  def test_it_create_input_with_class
+    user = User.new name: "rob"
+    result = HexletCode.form_for user, url: "#" do |f|
+      f.input :name, class: "user-input"
+      f.input :job
+      f.submit
+    end
+    assert { result == fixture("form_with_class_in_input") }
+  end
+
   def fixture(name)
     File.read("./test/fixtures/#{name}.html").strip
   end

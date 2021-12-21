@@ -31,13 +31,14 @@ module HexletCode
 
     def input(field, **options)
       add_label field.to_s
+      as = options.delete(:as)
       element = {
         tag: "input",
         name: field.to_s,
         type: "text"
-      }
+      }.merge(options)
 
-      element = to_textarea(element, **options) if options[:as] == :text
+      element = to_textarea(element, **options) if as == :text
       element[:value] = @user.public_send(field)
       @form[:elements].push(element)
     end
