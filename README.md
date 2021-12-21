@@ -47,8 +47,10 @@ HexletCode.form_for user do |f|
 end
 
 # <form action="#" method="post">
+#   <label for="name">Name</label>
 #   <input name="name" type="text" value="rob">
-#   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+#   <label for="job">Job</label>
+#   <textarea name="job" cols="20" rows="40">hexlet</textarea>
 # </form>
 
 # Raise NoMethodError if object not contain field

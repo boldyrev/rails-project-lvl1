@@ -1,70 +1,68 @@
 # frozen_string_literal: true
 
 require_relative "hexlet_code/version"
+require_relative "hexlet_code/html"
 
 module HexletCode
   class Error < StandardError; end
 
-  # Tag class
+  # Tag module
   module Tag
-    OFFSET = 2
-
     class << self
       def build(tag, **attributes)
-        return create_single(tag, **attributes) if single? tag
-
-        value = if block_given?
-                  yield
-                else
-                  attributes.delete(:value)
-                end
-
-        "#{create_single(tag, **attributes)}#{value}</#{tag}>"
+        attributes[:value] = yield if block_given?
+        Html.tag(tag, **attributes)
       end
 
       def form_for(user, **options)
         @user = user
-        url = options[:url] || "#"
-        @form = "<form action=\"#{url}\" method=\"post\">\n"
+        @form = {
+          action: options[:url] || "#",
+          method: "post",
+          elements: []
+        }
         yield Tag if block_given?
-        @form += "</form>"
+        Html.form(@form)
       end
 
       def input(field, **options)
-        options[:name] = field.to_s
-        options[:type] = "text"
-        options[:value] = @user.public_send(field)
+        add_label field.to_s
+        element = {
+          tag: "input",
+          name: field.to_s,
+          type: "text"
+        }
 
-        tag = if options[:as] == :text
-                textarea(**options)
-              else
-                build("input", **options)
-              end
-
-        @form += " " * OFFSET unless @form.empty?
-        @form += "#{tag}\n"
+        options[:as] == :text && to_textarea(element)
+        element[:value] = @user.public_send(field)
+        @form[:elements].push(element)
       end
 
-      def textarea(**options)
-        options.delete(:type)
-        options.delete(:as)
-        options = { cols: 20, rows: 40 }.merge(options)
-        build("textarea", **options)
+      def submit(title = "Save")
+        element = {
+          tag: "input",
+          name: "commit",
+          type: "submit",
+          value: title
+        }
+        @form[:elements].push(element)
       end
 
-      def submit(**options)
-        options[:type] = "submit"
-        build("input", **options)
+      def add_label(name)
+        element = {
+          tag: "label",
+          for: name,
+          value: name.capitalize
+        }
+
+        @form[:elements].push(element)
       end
 
-      def single?(tag)
-        %w[br input img hr].include? tag
-      end
-
-      def create_single(tag, **attributes)
-        return "<#{tag}>" if attributes.empty?
-
-        "<#{tag} #{attributes.map { |k, v| "#{k}=\"#{v}\"" }.join(" ")}>"
+      def to_textarea(element)
+        element.delete(:type)
+        element[:tag] = "textarea"
+        element[:cols] = 20
+        element[:rows] = 40
       end
     end
   end
