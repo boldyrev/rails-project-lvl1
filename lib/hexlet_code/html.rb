@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-require 'erb'
-
-TAG_TEMPLATE = <<-HTML.gsub(/(^  )|\n/, '')
-  <<%= name %><% unless attributes.empty? %> <%= attributes %><% end %>>
-  <% if value %><%= value %><% end %>
-  <% unless single %></<%= name %>><% end %>
-HTML
-
 FORM_TEMPLATE = <<-HTML.gsub(/^  /, '').strip
   <form action="<%= options[:action] %>" method="<%= options[:method] %>">
   <% options[:elements].each do |f| %>
@@ -23,11 +15,22 @@ module Html
       single = single? name
       value = attributes.delete(:value) unless single
       attributes = attributes.map { |k, v| "#{k}=\"#{v}\"" }.join(' ')
-      ERB.new(TAG_TEMPLATE).result(binding)
+
+      result = "<#{name}"
+      attributes.empty? || result += " #{attributes}"
+      result += '>'
+      value && result += value.to_s
+      single || result += "</#{name}>"
+      result
     end
 
     def form(options = {})
-      ERB.new(FORM_TEMPLATE, trim_mode: '<>').result(binding)
+      result = "<form action=\"#{options[:action]}\" method=\"#{options[:method]}\">\n"
+      options[:elements].each do |f|
+        result += "  #{tag(f.delete(:tag), **f)}\n"
+      end
+      result += '</form>'
+      result
     end
 
     def single?(tag)

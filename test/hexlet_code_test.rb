@@ -29,12 +29,16 @@ class HexletCodeTest < Minitest::Test
   end
 
   def test_it_does_create_form
-    result = HexletCode.form_for Object.new
+    result = HexletCode.form_for Object.new do |f|
+      # trick for linter
+    end
     assert { result == fixture('empty_form') }
   end
 
   def test_it_does_create_form_with_url
-    result = HexletCode.form_for Object.new, url: '/users'
+    result = HexletCode.form_for Object.new, url: '/users' do |f|
+      # trick for linter
+    end
     assert { result == fixture('empty_form_with_url') }
   end
 
@@ -65,6 +69,12 @@ class HexletCodeTest < Minitest::Test
       f.submit
     end
     assert { result == fixture('form_with_class_in_input') }
+  end
+
+  def test_it_does_raise_error_if_block_not_given
+    assert_raises(HexletCode::NoBlockGivenError) do
+      HexletCode.form_for Object.new
+    end
   end
 
   def fixture(name)

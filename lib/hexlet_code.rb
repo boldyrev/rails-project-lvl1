@@ -2,73 +2,24 @@
 
 require_relative 'hexlet_code/version'
 require_relative 'hexlet_code/html'
+require_relative 'hexlet_code/tag'
+require_relative 'hexlet_code/field_list'
+require_relative 'hexlet_code/errors'
 
-# Main module
+# HexletCode class
 module HexletCode
-  class Error < StandardError; end
+  def self.form_for(user, **options)
+    msg = 'It is not allowed to call a form_for method without passing a block'
+    raise NoBlockGivenError, msg unless block_given?
 
-  # Tag module
-  module Tag
-    class << self
-      def build(tag, **attributes)
-        attributes[:value] = yield if block_given?
-        Html.tag(tag, **attributes)
-      end
-    end
-  end
+    form = {
+      action: options[:url] || '#',
+      method: 'post'
+    }
 
-  class << self
-    def form_for(user, **options)
-      @user = user
-      @form = {
-        action: options[:url] || '#',
-        method: 'post',
-        elements: []
-      }
-      yield HexletCode if block_given?
-      Html.form(@form)
-    end
-
-    def input(field, **options)
-      add_label field.to_s
-      as = options.delete(:as)
-      element = {
-        tag: 'input',
-        name: field.to_s,
-        type: 'text'
-      }.merge(options)
-
-      element = to_textarea(element, **options) if as == :text
-      element[:value] = @user.public_send(field)
-      @form[:elements].push(element)
-    end
-
-    def submit(title = 'Save')
-      element = {
-        tag: 'input',
-        name: 'commit',
-        type: 'submit',
-        value: title
-      }
-      @form[:elements].push(element)
-    end
-
-    def add_label(name)
-      element = {
-        tag: 'label',
-        for: name,
-        value: name.capitalize
-      }
-
-      @form[:elements].push(element)
-    end
-
-    def to_textarea(element, **options)
-      element.delete(:type)
-      element[:tag] = 'textarea'
-      element[:cols] = options[:cols] || 20
-      element[:rows] = options[:rows] || 40
-      element
-    end
+    fields = FieldList.new(user)
+    yield fields
+    form[:elements] = fields.all
+    Html.form(form)
   end
 end
