@@ -1,40 +1,25 @@
 # frozen_string_literal: true
 
-FORM_TEMPLATE = <<-HTML.gsub(/^  /, '').strip
-  <form action="<%= options[:action] %>" method="<%= options[:method] %>">
-  <% options[:elements].each do |f| %>
-    <%= tag(f.delete(:tag), **f) %>
-  <% end %>
-  </form>
-HTML
-
 # Html module
 module Html
   class << self
-    def tag(name, **attributes)
-      single = single? name
-      value = attributes.delete(:value) unless single
+    def render(name, attributes, block)
       attributes = attributes.map { |k, v| "#{k}=\"#{v}\"" }.join(' ')
 
-      result = "<#{name}"
-      attributes.empty? || result += " #{attributes}"
-      result += '>'
-      value && result += value.to_s
-      single || result += "</#{name}>"
-      result
-    end
+      attributes = " #{attributes}" if attributes
 
-    def form(options = {})
-      result = "<form action=\"#{options[:action]}\" method=\"#{options[:method]}\">\n"
-      options[:elements].each do |f|
-        result += "  #{tag(f.delete(:tag), **f)}\n"
+      if block
+        inner = block.call
+        inner = "\n" if inner.empty?
+        inner = "\n  #{inner}" if tag? inner
+        "<#{name}#{attributes}>#{inner}</#{name}>"
+      else
+        "<#{name}#{attributes}>"
       end
-      result += '</form>'
-      result
     end
 
-    def single?(tag)
-      %w[br input img hr].include? tag
+    def tag?(obj)
+      obj.to_s.chomp[0] == '<'
     end
   end
 end

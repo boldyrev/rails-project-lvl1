@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
+require_relative './html'
+
 module HexletCode
   # Tag module
   module Tag
-    class << self
-      def build(tag, **attributes)
-        attributes[:value] = yield if block_given?
-        Html.tag(tag, **attributes)
-      end
+    def self.build(tag, **attributes, &block)
+      Html.render(tag, attributes, block)
     end
   end
 end

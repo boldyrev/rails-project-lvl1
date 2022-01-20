@@ -25,16 +25,6 @@ Or install it yourself as:
 
 ## Usage
 
-Create tags
-
-```ruby
-HexletCode::Tag.build('br')
-# <br>
-
-HexletCode::Tag.build('p', class: 'content') { 'Text' }
-# <p class="content">Text</p>
-```
-
 Create form for object
 
 ```ruby
@@ -74,4 +64,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hexlet_code.
+Bug reports and pull requests are welcome on GitHub at https://github.com/boldyrev/rails-project-lvl1.

@@ -6,26 +6,11 @@ User = Struct.new(:name, :job, :gender, keyword_init: true)
 
 class HexletCodeTest < Minitest::Test
   def setup
-    @tag = HexletCode::Tag
     @user = User.new name: 'rob', job: 'hexlet', gender: 'm'
   end
 
   def test_that_it_has_a_version_number
     refute_nil ::HexletCode::VERSION
-  end
-
-  def test_it_does_create_single_tags
-    assert { @tag.build('br') == '<br>' }
-    assert { @tag.build('img', src: '/path/to/image') == fixture('img') }
-  end
-
-  def test_it_does_create_pair_tags
-    label = '<label>Email</label>'
-    assert { @tag.build('label') { 'Email' } == label }
-    p = '<p class="content"></p>'
-    assert { @tag.build('p', class: 'content') == p }
-    p_with_value = '<p class="content">Text</p>'
-    assert { @tag.build('p', class: 'content') { 'Text' } == p_with_value }
   end
 
   def test_it_does_create_form
