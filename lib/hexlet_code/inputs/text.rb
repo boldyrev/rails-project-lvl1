@@ -6,7 +6,7 @@ require_relative './input_base'
 module HexletCode
   module Inputs
     # Textarea class
-    class Textarea < InputBase
+    class Text < InputBase
       def initialize(name, value, options)
         super
         @attributes[:cols] ||= 20

@@ -20,7 +20,7 @@ module HexletCode
     end
 
     def submit(title = 'Save')
-      element = InputBuilder.create('commit', title, { type: 'submit', label: false })
+      element = Tag.build('input', name: 'commit', type: 'submit', value: title) 
       @all.push(element)
     end
   end

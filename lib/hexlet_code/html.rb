@@ -10,7 +10,6 @@ module Html
 
       if block
         inner = block.call
-        inner = "\n" if inner.empty?
         inner = "\n  #{inner}" if tag? inner
         "<#{name}#{attributes}>#{inner}</#{name}>"
       else

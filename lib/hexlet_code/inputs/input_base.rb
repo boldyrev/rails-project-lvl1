@@ -10,15 +10,14 @@ module HexletCode
         @attributes = { name: name, value: value, **options }
       end
 
-      def create(label: true)
+      def create
         if single?(tag)
           input = Tag.build(tag, **@attributes)
         else
           value = @attributes.delete(:value)
           input = Tag.build(tag, **@attributes) { value }
         end
-        input = "#{label_tag}\n  #{input}" if label
-        input
+        "#{label_tag}\n  #{input}"
       end
 
       protected
