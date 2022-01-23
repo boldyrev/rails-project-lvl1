@@ -13,6 +13,12 @@ module HexletCode
         @attributes[:rows] ||= 40
       end
 
+      def create
+        value = @attributes.delete(:value)
+        input = Tag.build(tag, **@attributes) { value }
+        "#{label_tag}\n  #{input}"
+      end
+
       protected
 
       def tag

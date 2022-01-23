@@ -11,6 +11,11 @@ module HexletCode
         @attributes[:type] ||= 'text'
         @attributes = @attributes.sort.to_h
       end
+
+      def create
+        input = Tag.build(tag, **@attributes)
+        "#{label_tag}\n  #{input}"
+      end
     end
   end
 end
