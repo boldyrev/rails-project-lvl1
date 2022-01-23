@@ -10,12 +10,6 @@ module HexletCode
         @attributes = { name: name, value: value, **options }
       end
 
-      protected
-
-      def tag
-        'input'
-      end
-
       def label_tag
         name = @attributes[:name]
         Tag.build('label', for: name) { name.capitalize }

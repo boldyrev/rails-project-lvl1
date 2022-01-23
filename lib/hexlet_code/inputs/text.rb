@@ -15,14 +15,8 @@ module HexletCode
 
       def create
         value = @attributes.delete(:value)
-        input = Tag.build(tag, **@attributes) { value }
+        input = Tag.build('textarea', **@attributes) { value }
         "#{label_tag}\n  #{input}"
-      end
-
-      protected
-
-      def tag
-        'textarea'
       end
     end
   end

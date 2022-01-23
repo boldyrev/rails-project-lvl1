@@ -13,7 +13,7 @@ module HexletCode
       end
 
       def create
-        input = Tag.build(tag, **@attributes)
+        input = Tag.build('input', **@attributes)
         "#{label_tag}\n  #{input}"
       end
     end
