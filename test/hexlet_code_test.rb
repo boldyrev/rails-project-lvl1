@@ -61,8 +61,4 @@ class HexletCodeTest < Minitest::Test
       HexletCode.form_for Object.new
     end
   end
-
-  def fixture(name)
-    File.read("./test/fixtures/#{name}.html").strip
-  end
 end

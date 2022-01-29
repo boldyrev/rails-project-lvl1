@@ -7,3 +7,7 @@ Bundler.require
 
 require 'hexlet_code'
 require 'minitest/autorun'
+
+def fixture(name)
+  File.read("./test/fixtures/#{name}.html").strip
+end
